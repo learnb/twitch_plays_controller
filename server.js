@@ -17,6 +17,8 @@ class Server {
     
     init() {
         this._queue = Array();
+        this._rpm = 0;
+        
         let server = this;
        
         let onClientConnected = (sock) => {
@@ -25,7 +27,10 @@ class Server {
             console.log(`new client connected: ${clientName}`);
 
             sock.on('data', (data) => {
-                console.log(`${clientName} Says: ${data}`);
+                // counter for request stats
+                this.reqIncrim();
+                //console.log(`${clientName} Says: ${data}`);
+                
                 let cmd = data.toString().trim().split(" ")[0];
                 if(cmd === 'give'){
                     sock.write(this.qShift())
@@ -46,9 +51,8 @@ class Server {
         server.connection.listen(PORT, HOST, function() {
             console.log(`Server started at: ${HOST}:${PORT}`);
         });
-
+        
         return onClientConnected.sock
-
     }
 
     get queue() {
@@ -65,6 +69,18 @@ class Server {
         } else {
             return String(-1);
         }
+    }
+
+    get rpm() {
+        return this._rpm;
+    }
+
+    reqIncrim() {
+        this._rpm += 1;
+    }
+
+    reqClear() {
+        this._rpm = 0;
     }
 }
 module.exports = Server;
