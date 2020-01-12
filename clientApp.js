@@ -9,13 +9,13 @@ const MAX_QUEUE_SIZE = 100;
 var busy = false;
 var queue = Array();
 
-// first requesting input
+// start requesting input
 setTimeout(requestInput, REQUEST_TIMEOUT);
 
 // start consuming input
 setTimeout(consumeInput, CONSUME_TIMEOUT);
 
-// requests new input from server then added it to queue
+// requests new input from server then adds it to queue
 function requestInput(){
     // start next request
     setTimeout(requestInput, REQUEST_TIMEOUT);
@@ -34,21 +34,22 @@ function consumeInput() {
     setTimeout(consumeInput, CONSUME_TIMEOUT);
    
     // consume next item if queue is not empty 
-    if (queue.length > 0) {
-        console.log(String(queue.shift()));
-    } else {
-        console.log("-1");
+    if (queue.length > 0) { // next input ready
+        takeAction(String(queue.shift()));
+    } else {                // no inputs ready
+        //console.log("no inputs");
     }
 }
 
 // called when 'give' request successfully returns a value
 function giveSuccess(data) {
-    // push item to queue
-    if (queue.length < MAX_QUEUE_SIZE) {
-        //console.log(`added ${data}`);
-        queue.push(data);
-    } else { // drop if queue is full
-        console.log(`QUEUE FULL! dropped ${data}`);
+    if (data != "-1") { // server sent valid new input
+        // push item to queue
+        if (queue.length < MAX_QUEUE_SIZE) {
+            queue.push(data);
+        } else { // drop if queue is full
+            console.log(`QUEUE FULL! dropped ${data}`);
+        }
     }
     busy = false;
 }
@@ -57,4 +58,9 @@ function giveSuccess(data) {
 function giveFail(err) {
     console.error(err);
     busy = false;
+}
+
+// called when input is read
+function takeAction(input) {
+    console.log(input);
 }
