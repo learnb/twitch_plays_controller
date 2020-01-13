@@ -4,7 +4,7 @@
   "description": "Twitch Plays Machine Blearning",
   "main": "bot.js",
   "scripts": {
-    "start": "node bot.js"
+    "start": "node bot-server.js"
   },
   "dependencies": {
     "tmi.js": "*",
