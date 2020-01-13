@@ -1,3 +1,6 @@
+require('events').EventEmitter.defaultMaxListeners = 0
+const ViGEmClient = require('vigemclient');
+
 const Client = require('./client');
 const client = new Client();
 
@@ -5,6 +8,13 @@ const REQUEST_TIMEOUT = 100;
 const CONSUME_TIMEOUT = 100;
 
 const MAX_QUEUE_SIZE = 100;
+
+/* Setup virtual controller */
+let gamepad_client = new ViGEmClient();
+gamepad_client.connect(); // connect to ViGEmBus driver
+
+let controller = gamepad_client.createX360Controller(); // create virtual xbox 360 controller
+controller.connect(); // plug in virtual controller
 
 var busy = false;
 var queue = Array();
@@ -63,4 +73,35 @@ function giveFail(err) {
 // called when input is read
 function takeAction(input) {
     console.log(input);
+    //robot.typeString(input);
+
+    // buttons
+    if (input == "a"){
+        controller.button.A.setValue(true);
+        setTimeout((bool) => {controller.button.A.setValue(bool)}, 500, false);
+    }
+    if (input == "b"){
+        controller.button.B.setValue(true);
+        setTimeout((bool) => {controller.button.B.setValue(bool)}, 500, false);
+    }
+    
+    // dpad
+    if (input == "up"){
+        controller.axis.dpadVert.setValue(1);
+        setTimeout((val) => {controller.axis.dpadVert.setValue(val)}, 500, 0);
+    }
+    if (input == "down"){
+        controller.axis.dpadVert.setValue(-1);
+        setTimeout((val) => {controller.axis.dpadVert.setValue(val)}, 500, 0);
+    }
+    if (input == "left"){
+        controller.axis.dpadHorz.setValue(-1);
+        setTimeout((val) => {controller.axis.dpadHorz.setValue(val)}, 500, 0);
+    }
+    if (input == "right"){
+        controller.axis.dpadHorz.setValue(1);
+        setTimeout((val) => {controller.axis.dpadHorz.setValue(val)}, 500, 0);
+    }
 }
+
+process.on('warning', e => {} );
