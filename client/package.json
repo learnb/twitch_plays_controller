@@ -1,0 +1,16 @@
+{
+  "name": "machine-blearning-bot-client",
+  "version": "0.1.0",
+  "description": "Twitch Plays Machine Blearning",
+  "main": "clientApp.js",
+  "scripts": {
+    "start": "node clientApp.js"
+  },
+  "dependencies": {
+    "vigemclient": "^1.0.0"
+  },
+  "engines": {
+    "node": ">= 6.0.0",
+    "npm": ">= 3.0.0"
+  }
+}

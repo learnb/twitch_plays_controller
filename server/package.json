@@ -1,0 +1,18 @@
+{
+  "name": "machine-blearning-bot",
+  "version": "0.1.0",
+  "description": "Twitch Plays Machine Blearning",
+  "main": "bot-server.js",
+  "scripts": {
+    "start": "node bot-server.js"
+  },
+  "dependencies": {
+    "request": "*",
+    "requests": "^0.3.0",
+    "tmi.js": "^1.5.0"
+  },
+  "engines": {
+    "node": ">= 6.0.0",
+    "npm": ">= 3.0.0"
+  }
+}
